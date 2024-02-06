@@ -1,0 +1,84 @@
+include:
+  - project: 'homelab/terraform-images'
+    file: '/templates/Base.gitlab-ci.yml'
+
+image:
+  name: "$CI_REGISTRY/homelab/terraform-images/releases/terraform:1.7.2"
+
+.nodes:
+  parallel:
+    matrix:
+      - TF_STATE_NAME: "pve-node01"
+        TF_VAR_node_datastore: "local-lvm"
+      - TF_STATE_NAME: "pve-node02"
+        TF_VAR_node_datastore: "machines"
+
+variables:
+  ONEPASSWORD_BINARY_VERSION: "2.24.0"
+  PROXMOX_VE_ENDPOINT: "https://${TF_STATE_NAME}.int.jrtashjian.com:8006/"
+  TF_PLAN_CACHE: "${TF_STATE_NAME}-plan.cache"
+  TF_PLAN_JSON: "${TF_STATE_NAME}-plan.json"
+  TF_VAR_node_name: "${TF_STATE_NAME}"
+
+before_script:
+  - curl -sLo op.zip "https://cache.agilebits.com/dist/1P/op2/pkg/v${ONEPASSWORD_BINARY_VERSION}/op_linux_amd64_v${ONEPASSWORD_BINARY_VERSION}.zip"
+  - unzip op.zip
+  - rm op.zip
+  - mv ./op /usr/local/bin/op
+  - op --version
+  - terraform --version
+
+stages:
+  - validate
+  - build
+  - deploy
+  - cleanup
+
+fmt:
+  extends:
+    - .terraform:fmt
+  needs: []
+
+validate:
+  extends:
+    - .terraform:validate
+  needs: []
+
+build:
+  extends:
+    - .terraform:build
+    - .nodes
+  script:
+    - op run -- gitlab-terraform plan
+    - op run -- gitlab-terraform plan-json
+  environment:
+    name: $TF_STATE_NAME
+    action: prepare
+  artifacts:
+    paths:
+      - "${TF_PLAN_CACHE}"
+    reports:
+      terraform: "${TF_PLAN_JSON}"
+
+deploy:
+  extends:
+    - .terraform:deploy
+    - .nodes
+  dependencies:
+    - build
+  script:
+    - op run -- gitlab-terraform apply
+  environment:
+    name: $TF_STATE_NAME
+    url: $PROXMOX_VE_ENDPOINT
+    action: start
+
+cleanup:
+  extends:
+    - .terraform:destroy
+    - .nodes
+  script:
+    - op run -- gitlab-terraform destroy
+  environment:
+    name: $TF_STATE_NAME
+    action: stop
