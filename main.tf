@@ -12,6 +12,4 @@ resource "proxmox_virtual_environment_certificate" "int_jrtashjian_com" {
 
   certificate = trimspace(var.int_jrtashjian_com_cert)
   private_key = trimspace(var.int_jrtashjian_com_key)
-
-  force = true
 }
