@@ -23,8 +23,8 @@ The password for the Proxmox Virtual Environment API
 
 ### `TF_VAR_int_jrtashjian_com_cert`
 
-TBA
+The certificate chain.
 
 ### `TF_VAR_int_jrtashjian_com_key`
 
-TBA
+The certificate private key.
