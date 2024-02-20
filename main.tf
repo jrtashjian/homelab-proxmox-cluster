@@ -87,38 +87,3 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "ssh-serv
     log     = "nolog"
   }
 }
-
-resource "proxmox_virtual_environment_group" "proxmox_admin_ldap" {
-  comment  = "Managed by Terraform"
-  group_id = "proxmox-admin-ldap"
-
-  acl {
-    path    = "/"
-    role_id = "Administrator"
-  }
-}
-
-resource "proxmox_virtual_environment_group" "proxmox_user_ldap" {
-  comment  = "Managed by Terraform"
-  group_id = "proxmox-user-ldap"
-
-  acl {
-    path    = "/pool/UserVMs"
-    role_id = "PVEVMAdmin"
-  }
-
-  acl {
-    path    = "/pool/UserVMs"
-    role_id = "PVEPoolAdmin"
-  }
-
-  acl {
-    path    = "/pool/Templates"
-    role_id = "PVEPoolUser"
-  }
-
-  acl {
-    path    = "/pool/Templates"
-    role_id = "PVETemplateUser"
-  }
-}
