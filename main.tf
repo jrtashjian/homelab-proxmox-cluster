@@ -10,7 +10,7 @@ data "proxmox_virtual_environment_nodes" "nodes" {}
 
 # Upload wildcard certificate and private key.
 resource "proxmox_virtual_environment_certificate" "int_jrtashjian_com" {
-  for_each  = data.proxmox_virtual_environment_nodes.nodes.names
+  for_each  = toset(data.proxmox_virtual_environment_nodes.nodes.names)
   node_name = each.value
 
   certificate = trimspace(var.int_jrtashjian_com_cert)
@@ -19,7 +19,7 @@ resource "proxmox_virtual_environment_certificate" "int_jrtashjian_com" {
 
 # Create DMZ VLAN.
 resource "proxmox_virtual_environment_network_linux_vlan" "dmz" {
-  for_each  = data.proxmox_virtual_environment_nodes.nodes.names
+  for_each  = toset(data.proxmox_virtual_environment_nodes.nodes.names)
   node_name = each.value
 
   name    = "vlan_dmz"
