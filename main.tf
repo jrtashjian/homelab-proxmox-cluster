@@ -27,6 +27,7 @@ resource "proxmox_virtual_environment_network_linux_vlan" "dmz" {
 
   interface = "vmbr0"
   vlan      = 66
+  address   = "192.168.66.0/24"
 }
 
 # Add firewall aliases.
