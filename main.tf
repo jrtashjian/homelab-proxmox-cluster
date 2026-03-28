@@ -8,13 +8,11 @@ provider "proxmox" {
 
 data "proxmox_virtual_environment_nodes" "nodes" {}
 
-# Upload wildcard certificate and private key.
-resource "proxmox_virtual_environment_certificate" "int_jrtashjian_com" {
+resource "proxmox_virtual_environment_time" "node_time" {
   for_each  = toset(data.proxmox_virtual_environment_nodes.nodes.names)
   node_name = each.value
 
-  certificate = trimspace(var.int_jrtashjian_com_cert)
-  private_key = trimspace(var.int_jrtashjian_com_key)
+  time_zone = "America/New_York"
 }
 
 # Create DMZ VLAN.
