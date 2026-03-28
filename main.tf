@@ -110,3 +110,19 @@ resource "proxmox_backup_job" "daily_backup" {
   compress       = "zstd"
   notes_template = "{{guestname}}"
 }
+
+resource "proxmox_virtual_environment_metrics_server" "influxdb" {
+  name   = "influxdb"
+  server = "192.168.10.11"
+  port   = 30115
+  type   = "influxdb"
+
+  influx_organization = "Organization"
+  influx_bucket       = "proxmox"
+  influx_token        = var.influxdb_token
+  influx_db_proto     = "http"
+
+  lifecycle {
+    ignore_changes = [influx_token]
+  }
+}
