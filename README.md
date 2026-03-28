@@ -4,6 +4,24 @@ This configuration manages the baseline setup of a Proxmox VE cluster. It config
 
 Additionally, this configuration manages ACME certificate issuance for each node via Let's Encrypt with Cloudflare DNS validation, and integrates with Authentik for SSO authentication on the Proxmox web UI.
 
+## Local Development
+
+To run Terraform commands locally, use the provided `.env.example` as a template:
+
+```bash
+cp .env.example .env
+```
+
+Fill in the values in `.env` using [1Password Secret References](https://developer.1password.com/docs/cli/secret-references/) (e.g. `op://vault/item/field`) or plain values. Then use the [1Password CLI](https://developer.1password.com/docs/cli) to inject secrets at runtime:
+
+```bash
+# Preview changes
+op run --env-file=".env" -- terraform plan
+
+# Apply changes
+op run --env-file=".env" -- terraform apply
+```
+
 ## Variables for CI/CD Pipeline
 
 A GitLab environment is created by the CI/CD pipeline for each Proxmox cluster this Terraform project is deployed to. Each environment is named after the hostname of the primary node in the cluster (`pve-node01`, `pve-node02`, etc).
