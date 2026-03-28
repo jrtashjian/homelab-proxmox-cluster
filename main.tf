@@ -127,6 +127,17 @@ resource "proxmox_virtual_environment_metrics_server" "influxdb" {
   }
 }
 
+resource "proxmox_virtual_environment_group" "proxmox_admins" {
+  comment  = "Managed by Terraform"
+  group_id = "proxmox-admins"
+
+  acl {
+    path      = "/"
+    propagate = true
+    role_id   = "Administrator"
+  }
+}
+
 resource "proxmox_virtual_environment_role" "terraform-automation" {
   role_id = "terraform-automation"
 
