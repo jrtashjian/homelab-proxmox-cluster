@@ -227,7 +227,7 @@ resource "authentik_provider_oauth2" "pve-node" {
   sub_mode = "user_email"
 
   property_mappings = data.authentik_property_mapping_provider_scope.oauth.ids
-  signing_key = data.authentik_certificate_key_pair.generated.id
+  signing_key       = data.authentik_certificate_key_pair.generated.id
 }
 
 resource "authentik_application" "pve-node" {
@@ -235,7 +235,7 @@ resource "authentik_application" "pve-node" {
   slug              = data.proxmox_virtual_environment_nodes.nodes.names[0]
   protocol_provider = authentik_provider_oauth2.pve-node.id
 
-  meta_icon = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/proxmox-light.svg"
+  meta_icon        = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/proxmox-light.svg"
   meta_description = "Managed by Terraform"
 
   group = "Infrastructure"
