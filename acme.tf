@@ -1,6 +1,5 @@
 resource "proxmox_virtual_environment_acme_account" "letsencrypt" {
-  for_each  = toset(data.proxmox_virtual_environment_nodes.nodes.names)
-  name = each.value
+  name = "letsencrypt"
 
   contact   = "hello@jrtashjian.com"
   directory = "https://acme-v02.api.letsencrypt.org/directory"
@@ -8,8 +7,6 @@ resource "proxmox_virtual_environment_acme_account" "letsencrypt" {
 }
 
 resource "proxmox_virtual_environment_acme_dns_plugin" "cloudflare" {
-  for_each = toset(data.proxmox_virtual_environment_nodes.nodes.names)
-
   plugin = "cloudflare"
   api    = "cf"
 
@@ -26,12 +23,12 @@ resource "proxmox_virtual_environment_acme_dns_plugin" "cloudflare" {
 resource "proxmox_virtual_environment_acme_certificate" "node_cert" {
   for_each  = toset(data.proxmox_virtual_environment_nodes.nodes.names)
   node_name = each.value
-  account   = proxmox_virtual_environment_acme_account.letsencrypt[each.key].name
+  account   = proxmox_virtual_environment_acme_account.letsencrypt.name
 
   domains = [
     {
       domain = "${each.value}.int.jrtashjian.com"
-      plugin = proxmox_virtual_environment_acme_dns_plugin.cloudflare[each.key].plugin
+      plugin = proxmox_virtual_environment_acme_dns_plugin.cloudflare.plugin
     }
   ]
 
