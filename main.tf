@@ -89,8 +89,19 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "ssh-serv
   }
 }
 
+resource "proxmox_virtual_environment_storage_zfspool" "machines" {
+  nodes = data.proxmox_virtual_environment_nodes.nodes.names
+
+  id       = "machines"
+  zfs_pool = "machines"
+
+  content = ["images", "rootdir"]
+}
+
 # Backup NFS storage.
 resource "proxmox_virtual_environment_storage_nfs" "nfs_backup" {
+  nodes = data.proxmox_virtual_environment_nodes.nodes.names
+
   id     = "nfs-backup"
   server = "192.168.10.11"
   export = "/mnt/kraken_z2_primary/Backups/Proxmox_Virtual_Machines"
