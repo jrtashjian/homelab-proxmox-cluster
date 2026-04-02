@@ -177,7 +177,6 @@ resource "proxmox_virtual_environment_role" "terraform-automation" {
     "VM.Config.Network",
     "VM.Config.Options",
     "VM.Migrate",
-    "VM.Monitor",
     "VM.PowerMgmt",
   ]
 }
