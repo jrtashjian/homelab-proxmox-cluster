@@ -22,6 +22,12 @@ op run --env-file=".env" -- terraform plan
 op run --env-file=".env" -- terraform apply
 ```
 
+> [!IMPORTANT]
+> Before applying for the first time, import existing node resources into Terraform state for each node:
+> ```bash
+> op run --env-file=".env" -- ./import-resources.sh <node-name>
+> ```
+
 ## Variables for CI/CD Pipeline
 
 A GitLab environment is created by the CI/CD pipeline for each Proxmox cluster this Terraform project is deployed to. Each environment is named after the hostname of the primary node in the cluster (`pve-node01`, `pve-node02`, etc).
