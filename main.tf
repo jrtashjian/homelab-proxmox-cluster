@@ -142,7 +142,7 @@ resource "proxmox_virtual_environment_metrics_server" "influxdb" {
 
 resource "proxmox_virtual_environment_group" "proxmox_admins" {
   comment  = "Managed by Terraform"
-  group_id = "proxmox-admins"
+  group_id = "proxmox_admins-sso.jrtashjian.com"
 
   acl {
     path      = "/"
@@ -262,6 +262,10 @@ resource "proxmox_virtual_environment_realm_openid" "authentik" {
 
   # User provisioning
   autocreate = true
+
+  # Group mapping
+  groups_claim      = "groups"
+  groups_autocreate = false
 
   # Scopes and prompt
   scopes         = "email profile"
