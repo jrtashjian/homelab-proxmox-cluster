@@ -1,8 +1,24 @@
-resource "proxmox_virtual_environment_storage_zfspool" "machines" {
-  nodes = data.proxmox_virtual_environment_nodes.nodes.names
+locals {
+  machines_nodes      = tolist(setintersection(toset(var.nodes_with_machines), toset(data.proxmox_virtual_environment_nodes.nodes.names)))
+  machines_fast_nodes = tolist(setintersection(toset(var.nodes_with_machines_fast), toset(data.proxmox_virtual_environment_nodes.nodes.names)))
+}
 
+resource "proxmox_virtual_environment_storage_zfspool" "machines" {
+  count = length(local.machines_nodes) > 0 ? 1 : 0
+
+  nodes    = local.machines_nodes
   id       = "machines"
   zfs_pool = "machines"
+
+  content = ["images", "rootdir"]
+}
+
+resource "proxmox_virtual_environment_storage_zfspool" "machines_fast" {
+  count = length(local.machines_fast_nodes) > 0 ? 1 : 0
+
+  nodes    = local.machines_fast_nodes
+  id       = "machines-fast"
+  zfs_pool = "machines-fast"
 
   content = ["images", "rootdir"]
 }

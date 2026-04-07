@@ -30,3 +30,15 @@ variable "terraform_password" {
   type        = string
   sensitive   = true
 }
+
+variable "nodes_with_machines" {
+  description = "Nodes that have the 'machines' ZFS pool"
+  type        = list(string)
+  default     = ["pve-node01", "pve-node02", "pve-node03"]
+}
+
+variable "nodes_with_machines_fast" {
+  description = "Nodes that have the 'machines-fast' ZFS pool"
+  type        = list(string)
+  default     = ["pve-node02", "pve-node03"]
+}
