@@ -4,6 +4,34 @@ This configuration manages the baseline setup of a Proxmox VE cluster. It config
 
 Additionally, this configuration manages ACME certificate issuance for each node via Let's Encrypt with Cloudflare DNS validation, and integrates with Authentik for SSO authentication on the Proxmox web UI.
 
+## Initial Proxmox Host Setup
+
+Before applying this Terraform configuration, each node must be in the following baseline state.
+
+### 1. Install Proxmox VE
+
+Install [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/get-started) on each node using the official ISO. Complete the installer with the appropriate hostname, IP address, and root password.
+
+### 2. Create ZFS Storage Pools
+
+Create the required ZFS pools using the Proxmox web UI ([Proxmox ZFS documentation](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#chapter_zfs)). Do **not** configure storage in the Proxmox UI — this Terraform configuration manages storage.
+
+- Create a pool named `machines` using your spinning disk(s).
+- Create a pool named `machines_fast` using your SSD(s), if fast storage is available.
+
+### 3. Cluster the Nodes
+
+Create and join nodes to the cluster via the Proxmox web UI under **Datacenter → Cluster** ([Proxmox Cluster documentation](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#chapter_pvecm)).
+
+### 4. Configure Network Bridges
+
+In the Proxmox web UI under **System → Network** for each node:
+
+- **vmbr0** (existing Linux bridge): Enable the **VLAN aware** checkbox.
+- **vmbr1** (new Linux bridge): Create a new Linux bridge on the storage network interface with no bridge ports VLAN configuration unless required.
+
+Apply the network configuration and reboot if prompted.
+
 ## Local Development
 
 To run Terraform commands locally, use the provided `.env.example` as a template:
