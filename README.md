@@ -87,3 +87,12 @@ Credentials passed to Terraform at runtime via 1Password secret references. Set 
 | `TF_VAR_cloudflare_token` | Cloudflare API token for ACME DNS validation. |
 | `TF_VAR_cloudflare_account_id` | Cloudflare Account ID for ACME DNS validation. |
 | `TF_VAR_cloudflare_zone_id` | Cloudflare Zone ID for ACME DNS validation. |
+
+### Optional Terraform Variables
+
+These variables have defaults but can be overridden per environment as needed.
+
+| Variable | Default | Description |
+|---|---|---|
+| `TF_VAR_nodes_with_machines` | `["pve-node01", "pve-node02", "pve-node03"]` | Nodes that have the `machines` ZFS pool. |
+| `TF_VAR_nodes_with_machines_fast` | `["pve-node02", "pve-node03"]` | Nodes that have the `machines_fast` ZFS pool. |
