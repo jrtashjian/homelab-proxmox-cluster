@@ -6,6 +6,7 @@ provider "registry.terraform.io/bpg/proxmox" {
   constraints = "0.99.0"
   hashes = [
     "h1:6V45BVhSDz6rZPFuUT584auK5uTdnbP9E+vXqZTbGYo=",
+    "h1:UyNgTFGjDo0Kb9uIM/XrhO0F09eALXyaRqLsFM16XKo=",
     "zh:2ac2a659c1d9ceb180337ccc2ad86427383420230b2cd298f821cba9cbf5645c",
     "zh:2f8145d697bd4efbc1ffd3346d686866e104b21303dec3ff2ce0f9f501ddc9be",
     "zh:2fd459efb1b6658891e290111ca85d906eef42fe27c21af96b95442da8d461de",
@@ -28,6 +29,7 @@ provider "registry.terraform.io/goauthentik/authentik" {
   constraints = "2025.10.1"
   hashes = [
     "h1:L1IxXIBFj5JDy7JpaXWgd7/lDGoVKzDnGdwrkijSKhM=",
+    "h1:X0bV1LqI7nu4np+xiGP8yLVfyl6rh/XNXz7QQ7Hsr6g=",
     "zh:02ac2478c8901043a0455b8b6b8185e9814786bd802a9aa6d4126d4f56d4735d",
     "zh:24d680732a9ea72a86c1e7bf4aa13ab9cc0c60ee4bd4cae8af43670eff88edd9",
     "zh:4f415f177671eeea2234eb835479bbb710e811e60864cec6a00ee0e03a412fa3",
@@ -49,6 +51,7 @@ provider "registry.terraform.io/hashicorp/random" {
   version     = "3.8.1"
   constraints = "~> 3.0"
   hashes = [
+    "h1:Eexl06+6J+s75uD46+WnZtpJZYRVUMB0AiuPBifK6Jc=",
     "h1:u8AKlWVDTH5r9YLSeswoVEjiY72Rt4/ch7U+61ZDkiQ=",
     "zh:08dd03b918c7b55713026037c5400c48af5b9f468f483463321bd18e17b907b4",
     "zh:0eee654a5542dc1d41920bbf2419032d6f0d5625b03bd81339e5b33394a3e0ae",
