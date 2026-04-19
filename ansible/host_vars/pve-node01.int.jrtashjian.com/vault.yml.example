@@ -1,0 +1,2 @@
+ansible_user: {{ op://homelab/pve-node01/username }}
+ansible_password: {{ op://homelab/pve-node01/password }}
