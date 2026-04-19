@@ -1,0 +1,5 @@
+all:
+  hosts:
+    pve-node01.int.jrtashjian.com:
+    pve-node02.int.jrtashjian.com:
+    pve-node03.int.jrtashjian.com:

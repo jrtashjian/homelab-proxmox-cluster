@@ -7,3 +7,8 @@
 
 # Terraform directories
 .terraform/
+
+# Ansible files
+ansible_collections/
+cache/
+vault.yml
