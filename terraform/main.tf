@@ -59,6 +59,7 @@ resource "proxmox_virtual_environment_role" "terraform-automation" {
     "VM.Config.Memory",
     "VM.Config.Network",
     "VM.Config.Options",
+    "VM.GuestAgent.Audit",
     "VM.Migrate",
     "VM.PowerMgmt",
   ]
