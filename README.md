@@ -1,12 +1,14 @@
-# Proxmox Cluster Terraform Configuration
+# Proxmox Cluster Configuration
 
-This configuration manages the baseline setup of a Proxmox VE cluster. It configures cluster-wide settings including node time zones, network VLANs, firewall aliases and rules, NFS backup storage, daily backup jobs, and InfluxDB metrics reporting. A dedicated Terraform automation user and role are also provisioned with the necessary privileges.
+This repository manages the baseline setup of a Proxmox VE cluster using **Ansible** for host-level configuration and **Terraform** for cluster-wide infrastructure management.
 
-Additionally, this configuration manages ACME certificate issuance for each node via Let's Encrypt with Cloudflare DNS validation, and integrates with Authentik for SSO authentication on the Proxmox web UI.
+**Ansible** handles host-level tasks such as PCI passthrough configuration and kernel module setup across the cluster nodes.
+
+**Terraform** manages cluster-wide settings including node time zones, network VLANs, firewall aliases and rules, NFS backup storage, daily backup jobs, and InfluxDB metrics reporting. A dedicated Terraform automation user and role are also provisioned with the necessary privileges. Additionally, it manages ACME certificate issuance for each node via Let's Encrypt with Cloudflare DNS validation, and integrates with Authentik for SSO authentication on the Proxmox web UI.
 
 ## Initial Proxmox Host Setup
 
-Before applying this Terraform configuration, each node must be in the following baseline state.
+Before applying the Ansible and Terraform configurations, each node must be in the following baseline state.
 
 ### 1. Install Proxmox VE
 
@@ -32,7 +34,46 @@ In the Proxmox web UI under **System → Network** for each node:
 
 Apply the network configuration and reboot if prompted.
 
-## Local Development
+### 5. Run the Ansible Playbook
+
+Apply host-level configuration to all nodes. See [Ansible](#ansible) for setup and usage.
+
+### 6. Apply the Terraform Configuration
+
+Provision cluster-wide infrastructure. See [Terraform](#terraform) for setup and usage.
+
+## Ansible
+
+Ansible handles host-level configuration for the Proxmox nodes. The playbook and roles are located in the `ansible/` directory.
+
+### Setup
+
+Install the required Ansible collections:
+
+```bash
+cd ansible
+ansible-galaxy install --force -r requirements.yml
+```
+
+Run the vault setup script to fetch the Ansible vault password and encrypt host variable vault files using [1Password CLI](https://developer.1password.com/docs/cli):
+
+```bash
+./setup-vaults.sh
+```
+
+This retrieves the vault password from 1Password and encrypts each host's `vault.yml` from its corresponding `vault.yml.example` template.
+
+### Running the Playbook
+
+Apply the playbook to all cluster nodes:
+
+```bash
+ansible-playbook playbook.yml
+```
+
+## Terraform
+
+### Local Development
 
 To run Terraform commands locally, use the provided `.env.example` as a template:
 
@@ -56,13 +97,13 @@ op run --env-file=".env" -- terraform apply
 > op run --env-file=".env" -- ./import-resources.sh <node-name>
 > ```
 
-## Variables for CI/CD Pipeline
+### Variables for CI/CD Pipeline
 
 A GitLab environment is created by the CI/CD pipeline for each Proxmox cluster this Terraform project is deployed to. Each environment is named after the hostname of the primary node in the cluster (`pve-node01`, `pve-node02`, etc).
 
 The pipeline utilizes [1Password Service Account](https://developer.1password.com/docs/service-accounts) for retrieving passwords [defined as variables](https://docs.gitlab.com/ee/ci/variables/#define-a-cicd-variable-in-the-ui) using the [Secret Reference](https://developer.1password.com/docs/cli/secret-references/) syntax.
 
-### GitLab CI/CD Workflow Variables
+#### GitLab CI/CD Workflow Variables
 
 Required by the GitLab CI/CD workflow itself. Set these as CI/CD variables in the GitLab project settings.
 
@@ -70,7 +111,7 @@ Required by the GitLab CI/CD workflow itself. Set these as CI/CD variables in th
 |---|---|
 | `OP_SERVICE_ACCOUNT_TOKEN` | The service account token used by the GitLab CI/CD workflow to authenticate with 1Password. |
 
-### Environment Variables
+#### Environment Variables
 
 Credentials passed to Terraform at runtime via 1Password secret references. Set these as CI/CD variables in the GitLab environment for each cluster.
 
@@ -88,7 +129,7 @@ Credentials passed to Terraform at runtime via 1Password secret references. Set 
 | `TF_VAR_cloudflare_account_id` | Cloudflare Account ID for ACME DNS validation. |
 | `TF_VAR_cloudflare_zone_id` | Cloudflare Zone ID for ACME DNS validation. |
 
-### Optional Terraform Variables
+#### Optional Terraform Variables
 
 These variables have defaults but can be overridden per environment as needed.
 
