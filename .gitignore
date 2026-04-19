@@ -9,6 +9,7 @@
 .terraform/
 
 # Ansible files
+.ansible-vault-password
 ansible_collections/
 cache/
 vault.yml
