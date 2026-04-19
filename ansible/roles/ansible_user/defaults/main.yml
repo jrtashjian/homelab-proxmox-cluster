@@ -1,0 +1,3 @@
+ansible_user_name: ansible
+ansible_user_password: ""
+ansible_user_ssh_public_key: ""

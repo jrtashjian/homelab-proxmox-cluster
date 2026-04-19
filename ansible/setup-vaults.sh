@@ -46,6 +46,7 @@ fetch_1password_item() {
 fetch_1password_item "op://homelab/ansible-user/Credentials/.ansible-vault-password" ".ansible-vault-password"
 
 vault_files=(
+    "group_vars/all/vault.yml"
     "host_vars/pve-node01.int.jrtashjian.com/vault.yml"
     "host_vars/pve-node02.int.jrtashjian.com/vault.yml"
     "host_vars/pve-node03.int.jrtashjian.com/vault.yml"

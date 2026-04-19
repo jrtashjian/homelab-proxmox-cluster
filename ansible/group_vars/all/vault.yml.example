@@ -1,0 +1,3 @@
+ansible_user_name: {{ op://homelab/ansible-user/username }}
+ansible_user_password: {{ op://homelab/ansible-user/password }}
+ansible_user_ssh_public_key: {{ op://homelab/ansible-ssh/public key }}
