@@ -1,3 +1,9 @@
+- name: Ensure sudo is installed
+  ansible.builtin.apt:
+    name: sudo
+    state: present
+    update_cache: true
+
 - name: Create the ansible user account
   ansible.builtin.user:
     name: "{{ ansible_user_name }}"
@@ -13,3 +19,11 @@
     user: "{{ ansible_user_name }}"
     key: "{{ ansible_user_ssh_public_key }}"
     state: present
+
+- name: Allow passwordless sudo for the ansible user
+  ansible.builtin.copy:
+    dest: "/etc/sudoers.d/{{ ansible_user_name }}"
+    content: "{{ ansible_user_name }} ALL=(ALL) NOPASSWD:ALL\n"
+    owner: root
+    group: root
+    mode: "0440"
