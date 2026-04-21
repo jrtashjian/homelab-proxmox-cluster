@@ -21,6 +21,8 @@ resource "proxmox_virtual_environment_vm" "debian_13_trixie_template" {
   name     = "cloudinit-debian-13-trixie"
   template = true
 
+  machine = "q35,viommu=virtio"
+
   agent {
     enabled = true
   }
