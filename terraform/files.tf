@@ -36,9 +36,11 @@ resource "proxmox_virtual_environment_file" "debian_vendor_config" {
 
   source_raw {
     data      = <<-EOF
+    #cloud-config
+    package_update: true
+    packages:
+      - qemu-guest-agent
     runcmd:
-      - apt update
-      - apt install -y qemu-guest-agent
       - systemctl enable qemu-guest-agent
       - systemctl start qemu-guest-agent
     EOF

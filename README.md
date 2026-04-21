@@ -120,6 +120,8 @@ Credentials passed to Terraform at runtime via 1Password secret references. Set 
 | `PROXMOX_VE_ENDPOINT` | The URL of the Proxmox Virtual Environment API endpoint. |
 | `PROXMOX_VE_USERNAME` | The username and realm for the Proxmox Virtual Environment API. |
 | `PROXMOX_VE_PASSWORD` | The password for the Proxmox Virtual Environment API. |
+| `PROXMOX_VE_SSH_USERNAME` | The SSH username for connecting to Proxmox nodes. |
+| `PROXMOX_VE_SSH_PASSWORD` | The SSH password for connecting to Proxmox nodes. |
 | `AUTHENTIK_URL` | The URL of the Authentik instance. |
 | `AUTHENTIK_TOKEN` | The API token for the Authentik instance. |
 | `TF_VAR_terraform_username` | The username and realm Terraform uses to authenticate with the Proxmox Virtual Environment API. |
