@@ -7,9 +7,10 @@ locals {
   # Build a clean map: node_name => { iso, snippets, vztmpl }
   datastore = {
     for node in data.proxmox_virtual_environment_nodes.nodes.names : node => {
-      iso      = one([for ds in data.proxmox_virtual_environment_datastores.datastores[node].datastores : ds.id if contains(ds.content_types, "iso")])
-      snippets = one([for ds in data.proxmox_virtual_environment_datastores.datastores[node].datastores : ds.id if contains(ds.content_types, "snippets")])
-      vztmpl   = one([for ds in data.proxmox_virtual_environment_datastores.datastores[node].datastores : ds.id if contains(ds.content_types, "vztmpl")])
+      iso      = [for ds in data.proxmox_virtual_environment_datastores.datastores[node].datastores : ds.id if contains(ds.content_types, "iso")][0]
+      snippets = [for ds in data.proxmox_virtual_environment_datastores.datastores[node].datastores : ds.id if contains(ds.content_types, "snippets")][0]
+      vztmpl   = [for ds in data.proxmox_virtual_environment_datastores.datastores[node].datastores : ds.id if contains(ds.content_types, "vztmpl")][0]
+      images   = [for ds in data.proxmox_virtual_environment_datastores.datastores[node].datastores : ds.id if contains(ds.content_types, "images")][0]
     }
   }
 }
