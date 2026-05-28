@@ -29,7 +29,7 @@ resource "proxmox_virtual_environment_storage_nfs" "nfs_backup" {
 
   id     = "nfs-backup"
   server = "192.168.30.11"
-  export = "/mnt/kraken_z2_primary/Backups/Proxmox_Virtual_Machines"
+  export = "/mnt/kraken_mirror/Backups/Proxmox_Virtual_Machines"
 
   content = ["backup"]
 
