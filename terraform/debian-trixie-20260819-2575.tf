@@ -5,9 +5,9 @@ resource "proxmox_virtual_environment_download_file" "debian_13_trixie_cloud_ima
   content_type = "iso"
   datastore_id = local.datastore[each.value].iso
 
-  url = "https://cloud.debian.org/images/cloud/trixie/20260413-2447/debian-13-genericcloud-amd64-20260413-2447.qcow2"
+  url = "https://cloud.debian.org/images/cloud/trixie/20260819-2575/debian-13-genericcloud-amd64-20260819-2575.qcow2"
 
-  checksum           = "3d020c868339c8387f6f40f63e6b5ccb6174e6f2963510cb51cacfd6618244e96549d1b60b3d629df3963cb5350c6dfaf5cf34998301aa578b9d455a76d3c434"
+  checksum           = "77429b411b39b43f914dc9d14bf34aa315489a1a12b5429f72e5b483bdda23c65698d33443c85d3f3ad7c3a0828ae60845406d6b99646342554d17abae29c2a3"
   checksum_algorithm = "sha512"
 
   file_name = "debian-13-trixie.img"
